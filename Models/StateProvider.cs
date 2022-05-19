@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Firebase.Components;
 using System.Security.Claims;
 using System.Text.Json;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Microsoft.Identity.Firebase.Models
 {
@@ -99,7 +98,7 @@ namespace Microsoft.Identity.Firebase.Models
 
         public void ManageUser()
         {
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            this.NotifyAuthenticationStateChanged(this.GetAuthenticationStateAsync());
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()

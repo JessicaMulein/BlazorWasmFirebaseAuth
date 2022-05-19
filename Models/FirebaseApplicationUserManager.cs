@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Microsoft.Identity.Firebase.Models
+﻿namespace Microsoft.Identity.Firebase.Models
 {
     using global::Microsoft.AspNetCore.Identity;
-    using global::Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using global::Microsoft.Extensions.Logging;
     using global::Microsoft.Extensions.Options;
-    using System.Threading.Tasks;
 
     namespace Microsoft.Identity.Firebase.Models
     {

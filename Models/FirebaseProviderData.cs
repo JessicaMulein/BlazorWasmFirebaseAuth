@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Identity.Firebase.Models
 {

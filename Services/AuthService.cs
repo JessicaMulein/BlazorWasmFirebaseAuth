@@ -1,15 +1,6 @@
 ﻿//using FirebaseAdmin;
 //using FirebaseAdmin.Auth;
 //using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web;
 //using Google.Api.Gax;
 using Microsoft.Identity.Firebase.Models;
 

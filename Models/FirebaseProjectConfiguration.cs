@@ -33,13 +33,13 @@ namespace Microsoft.Identity.Firebase.Models
         {
             var configurationSection = configuration.GetSection("Firebase");
             var apiKeyBytes = Convert.FromBase64String(configurationSection["ApiKey"]);
-            apiKey = new string(apiKeyBytes.Select(b => (char)b).ToArray());
-            authDomain = configurationSection["AuthDomain"];
-            projectId = configurationSection["ProjectId"];
-            storageBucket = configurationSection["StorageBucket"];
-            messagingSenderId = configurationSection["MessagingSenderId"];
-            appId = configurationSection["AppId"];
-            measurementId = configurationSection["MeasurementId"];
+            this.apiKey = new string(apiKeyBytes.Select(b => (char)b).ToArray());
+            this.authDomain = configurationSection["AuthDomain"];
+            this.projectId = configurationSection["ProjectId"];
+            this.storageBucket = configurationSection["StorageBucket"];
+            this.messagingSenderId = configurationSection["MessagingSenderId"];
+            this.appId = configurationSection["AppId"];
+            this.measurementId = configurationSection["MeasurementId"];
             this.OpenIdConfiguration = openIdConfiguration ?? FirebaseOpenIdConfiguration.GetFirebaseOpenIdConfiguration(this);
         }
 

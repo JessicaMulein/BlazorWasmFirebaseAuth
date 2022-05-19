@@ -1,4 +1,6 @@
-﻿@using Microsoft.JSInterop
+﻿@namespace Microsoft.Identity.Firebase.Components
+@inherits ComponentBase
+@using Microsoft.JSInterop
 @inject IJSRuntime _jsRuntime
 @inject Microsoft.Identity.Firebase.Models.FirebaseProjectConfiguration _firebaseProjectConfiguration
 <div id="firebaseConfig" style="display: none; visibility:hidden">@_firebaseProjectConfiguration.ToBase64Json()</div>

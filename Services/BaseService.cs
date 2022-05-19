@@ -1,8 +1,4 @@
 ﻿using Microsoft.Identity.Firebase.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Microsoft.Identity.Firebase.Services
 {
@@ -18,7 +14,7 @@ namespace Microsoft.Identity.Firebase.Services
         public BaseService() { }
         public void Dispose()
         {
-            db.Dispose();
+            this.db.Dispose();
         }
     }
 }

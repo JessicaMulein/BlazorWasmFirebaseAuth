@@ -1,9 +1,8 @@
-﻿using System.Security.Principal;
-using Microsoft.AspNetCore.Identity;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Firebase.Components;
 using System.Security.Claims;
+using System.Security.Principal;
+using System.Text.Json.Serialization;
 
 namespace Microsoft.Identity.Firebase.Models
 {
@@ -37,19 +36,19 @@ namespace Microsoft.Identity.Firebase.Models
 
         [JsonPropertyName("providerData")] public IEnumerable<FirebaseProviderData> ProviderData { get; set; }
 
-        public FirebaseProviderData? FirstProvider => ProviderData?.First();
+        public FirebaseProviderData? FirstProvider => this.ProviderData?.First();
 
         public string BestAvailableName
         {
             get
             {
-                if (IsAnonymous)
+                if (this.IsAnonymous)
                 {
                     return $"Anonymous (firebase: {this.FirebaseUid})";
                 }
 
-                if (!ProviderData.Any())
-                    return !string.IsNullOrWhiteSpace(Email) ? Email : FirebaseUid;
+                if (!this.ProviderData.Any())
+                    return !string.IsNullOrWhiteSpace(this.Email) ? this.Email : this.FirebaseUid;
 
                 foreach (var provider in this.ProviderData)
                 {
@@ -86,7 +85,7 @@ namespace Microsoft.Identity.Firebase.Models
         [JsonPropertyName("apiKey")] public string ApiKey { get; set; }
         [JsonPropertyName("appName")] public string AppName { get; set; }
 
-        public string? AuthenticationType => FirstProvider?.ProviderId;
+        public string? AuthenticationType => this.FirstProvider?.ProviderId;
 
         public bool IsAuthenticated => FirebaseAuth.CurrentUser is null ? false : FirebaseAuth.CurrentUser.FirebaseUid.Equals(this.FirebaseUid);
 
@@ -104,8 +103,8 @@ namespace Microsoft.Identity.Firebase.Models
         /// </remarks>
         public FirebaseUser()
         {
-            Id = Guid.NewGuid().ToString();
-            SecurityStamp = Guid.NewGuid().ToString();
+            this.Id = Guid.NewGuid().ToString();
+            this.SecurityStamp = Guid.NewGuid().ToString();
         }
     }
 }

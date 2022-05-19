@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Firebase.Models;
+using Microsoft.Identity.Firebase.Models.Account;
 using Microsoft.JSInterop;
 using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Microsoft.Identity.Firebase.Components
 {
@@ -31,10 +32,10 @@ namespace Microsoft.Identity.Firebase.Components
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
-            if (!Initialized && _jsRuntime is not null)
+            if (!Initialized && this._jsRuntime is not null)
             {
                 Instance = this;
-                await _jsRuntime.InvokeVoidAsync("window.firebaseInitialize", InstanceReference);
+                await this._jsRuntime.InvokeVoidAsync("window.firebaseInitialize", this.InstanceReference);
                 Initialized = true;
             }
         }
@@ -46,7 +47,7 @@ namespace Microsoft.Identity.Firebase.Components
             StateProvider.InvokeNotifyAuthenticationStateChanged();
         }
 
-        public static async Task<FirebaseUser> FirebaseUserFromJsonData(string userData)
+        public static async Task<FirebaseUser> FirebaseUserFromJsonDataAsync(string userData)
         {
             if (string.IsNullOrEmpty(userData))
                 throw new ArgumentNullException(nameof(userData));
@@ -80,7 +81,7 @@ namespace Microsoft.Identity.Firebase.Components
             return userObject;
         }
 
-        public static async Task<FirebaseUser?> SignInEmailUser(string email, string password, IJSRuntime? jsRuntime = null)
+        public static async Task<FirebaseUser?> SignInEmailUserAsync(string email, string password, IJSRuntime? jsRuntime = null)
         {
             if (jsRuntime is not null)
             {
@@ -89,10 +90,16 @@ namespace Microsoft.Identity.Firebase.Components
             var userData = await StaticJsInterop!.InvokeAsync<string?>("window.firebaseLoginUser", email, password);
             if (string.IsNullOrEmpty(userData))
                 return null;
-            return await FirebaseUserFromJsonData(userData);
+            return await FirebaseUserFromJsonDataAsync(userData);
         }
 
-        public static async Task<FirebaseUser?> CreateEmailUser(string email, string password, IJSRuntime? jsRuntime = null)
+
+        public static async Task<FirebaseUser?> CreateEmailUserAsync(NewUser newUser, IJSRuntime? jsRuntime = null)
+        {
+            return await CreateEmailUserAsync(newUser.Email, newUser.Password, newUser.DisplayName, jsRuntime);
+        }
+
+        public static async Task<FirebaseUser?> CreateEmailUserAsync(string email, string password, string displayName, IJSRuntime? jsRuntime = null)
         {
             if (jsRuntime is not null)
             {
@@ -101,10 +108,15 @@ namespace Microsoft.Identity.Firebase.Components
             var userData = await StaticJsInterop!.InvokeAsync<string?>("window.firebaseCreateUser", email, password);
             if (string.IsNullOrEmpty(userData))
                 return null;
-            return await FirebaseUserFromJsonData(userData);
+            var newUser = await FirebaseUserFromJsonDataAsync(userData);
+            newUser!.FirstProvider!.DisplayName = displayName;
+            if (!await UpdateEmailUserDataAsync(newUser))
+                return null;
+
+            return newUser;
         }
 
-        public static async Task<bool> UpdateEmailUserData(FirebaseUser user, IJSRuntime? jSRuntime = null)
+        public static async Task<bool> UpdateEmailUserDataAsync(FirebaseUser user, IJSRuntime? jSRuntime = null)
         {
             if (!CurrentUser!.FirebaseUid.Equals(user.FirebaseUid))
             {
@@ -121,7 +133,7 @@ namespace Microsoft.Identity.Firebase.Components
 
         public async Task SignOutAsync()
         {
-            await _jsRuntime!.InvokeVoidAsync("window.firebaseSignOut", InstanceReference);
+            await this._jsRuntime!.InvokeVoidAsync("window.firebaseSignOut", this.InstanceReference);
         }
     }
 }

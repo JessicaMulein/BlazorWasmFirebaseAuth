@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace Microsoft.Identity.Firebase.Models
 {
@@ -52,14 +52,14 @@ namespace Microsoft.Identity.Firebase.Models
             {
                 return;
             }
-            FirebaseUid = user.FirebaseUid;
-            Email = user.Email;
-            EmailVerified = user.EmailVerified;
-            IsAnonymous = user.IsAnonymous;
-            ProviderData = user.ProviderData;
-            StsTokenManager = user.StsTokenManager;
-            CreatedAt = user.CreatedAt;
-            LastLoginAt = user.LastLoginAt;
+            this.FirebaseUid = user.FirebaseUid;
+            this.Email = user.Email;
+            this.EmailVerified = user.EmailVerified;
+            this.IsAnonymous = user.IsAnonymous;
+            this.ProviderData = user.ProviderData;
+            this.StsTokenManager = user.StsTokenManager;
+            this.CreatedAt = user.CreatedAt;
+            this.LastLoginAt = user.LastLoginAt;
         }
     }
 }
