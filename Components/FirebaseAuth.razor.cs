@@ -109,7 +109,18 @@ namespace Microsoft.Identity.Firebase.Components
             if (string.IsNullOrEmpty(userData))
                 return null;
             var newUser = await FirebaseUserFromJsonDataAsync(userData);
-            newUser!.FirstProvider!.DisplayName = displayName;
+            if (newUser.ProviderData.Any())
+            {
+                newUser!.FirstProvider!.DisplayName = displayName;
+            } else
+            {
+                newUser.ProviderData.Append(new FirebaseProviderData
+                {
+                    DisplayName = displayName,
+                    Email = email,
+                    ProviderId = "password"
+                });
+            }
             if (!await UpdateEmailUserDataAsync(newUser))
                 return null;
 
