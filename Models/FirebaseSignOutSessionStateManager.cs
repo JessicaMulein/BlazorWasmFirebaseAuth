@@ -14,12 +14,11 @@ namespace Microsoft.Identity.Firebase.Models
 
         public override ValueTask SetSignOutState()
         {
-
             _ = Task.Run(async () =>
             {
                 await base.SetSignOutState();
 
-                var signedOut = await this.jsRuntime.InvokeAsync<bool>("window.firebaseSignOut", FirebaseAuth.Instance!.InstanceReference);
+                var signedOut = await this.jsRuntime.InvokeAsync<bool>("firebaseJs.signOut", FirebaseAuth.Instance!.InstanceReference);
                 if (signedOut is true)
                 {
                     await FirebaseAuth.Instance!.OnAuthStateChanged(null);

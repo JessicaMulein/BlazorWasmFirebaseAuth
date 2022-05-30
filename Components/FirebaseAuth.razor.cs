@@ -35,7 +35,7 @@ namespace Microsoft.Identity.Firebase.Components
             if (!Initialized && this._jsRuntime is not null)
             {
                 Instance = this;
-                await this._jsRuntime.InvokeVoidAsync("window.firebaseInitialize", this.InstanceReference);
+                await this._jsRuntime.InvokeVoidAsync("firebaseJs.initialize", this.InstanceReference);
                 Initialized = true;
             }
         }
@@ -87,7 +87,7 @@ namespace Microsoft.Identity.Firebase.Components
             {
                 StaticJsInterop = jsRuntime;
             }
-            var userData = await StaticJsInterop!.InvokeAsync<string?>("window.firebaseLoginUser", email, password);
+            var userData = await StaticJsInterop!.InvokeAsync<string?>("firebaseJs.loginWithEmail", email, password);
             if (string.IsNullOrEmpty(userData))
                 return null;
             return await FirebaseUserFromJsonDataAsync(userData);
@@ -105,7 +105,7 @@ namespace Microsoft.Identity.Firebase.Components
             {
                 StaticJsInterop = jsRuntime;
             }
-            var userData = await StaticJsInterop!.InvokeAsync<string?>("window.firebaseCreateUser", email, password);
+            var userData = await StaticJsInterop!.InvokeAsync<string?>("firebaseJs.createUserWithEmail", email, password);
             if (string.IsNullOrEmpty(userData))
                 return null;
             var newUser = await FirebaseUserFromJsonDataAsync(userData);
@@ -139,12 +139,12 @@ namespace Microsoft.Identity.Firebase.Components
                 StaticJsInterop = jSRuntime;
             }
 
-            return await StaticJsInterop!.InvokeAsync<bool>("window.firebaseUpdateProfile", user.FirstProvider);
+            return await StaticJsInterop!.InvokeAsync<bool>("firebaseJs.updateProfile", user.FirstProvider);
         }
 
         public async Task SignOutAsync()
         {
-            await this._jsRuntime!.InvokeVoidAsync("window.firebaseSignOut", this.InstanceReference);
+            await this._jsRuntime!.InvokeVoidAsync("firebaseJs.signOut", this.InstanceReference);
         }
     }
 }

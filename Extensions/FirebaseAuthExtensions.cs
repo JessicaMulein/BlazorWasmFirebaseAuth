@@ -21,6 +21,8 @@ namespace Microsoft.Identity.Firebase.Extensions
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             };
+            var projectConfiguration = builder.Configuration.GetRequiredSection(FirebaseProjectConfiguration.ConfigSectionName);
+            var uiConfiguration = builder.Configuration.GetRequiredSection(FirebaseUiConfiguration.ConfigSectionName);
             var openIdConfiguration = await FirebaseOpenIdConfiguration.GetFirebaseOpenIdConfigurationAsync(
                     configurationUrl: string.Join(httpClient.BaseAddress.ToString(), "/openIdConfiguration.json"),
                     httpClient: httpClient);
@@ -31,7 +33,8 @@ namespace Microsoft.Identity.Firebase.Extensions
             });
             builder.Services.AddScoped(sp => httpClient);
             builder.Services.AddSingleton<FirebaseOpenIdConfiguration>(implementationInstance: openIdConfiguration);
-            builder.Services.AddSingleton<FirebaseProjectConfiguration>(implementationInstance: new FirebaseProjectConfiguration(builder.Configuration, openIdConfiguration));
+            builder.Services.AddSingleton<FirebaseProjectConfiguration>(implementationInstance: new FirebaseProjectConfiguration(projectConfiguration, openIdConfiguration));
+            builder.Services.AddSingleton<FirebaseUiConfiguration>(implementationInstance: new FirebaseUiConfiguration(uiConfiguration));
             builder.Services.AddSingleton<FirebaseAuth>(implementationInstance: new FirebaseAuth());
             builder.Services.AddSingleton<StateProvider>();
             builder.Services.AddScoped<IdentityUser, FirebaseUser>();

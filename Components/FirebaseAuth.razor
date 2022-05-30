@@ -1,7 +1,10 @@
 ﻿@namespace Microsoft.Identity.Firebase.Components
 @inherits ComponentBase
+@using Microsoft.Identity.Firebase.Models
 @using Microsoft.JSInterop
 @inject IJSRuntime _jsRuntime
+@inject FirebaseUiConfiguration _firebaseUiConfig
 @inject Microsoft.Identity.Firebase.Models.FirebaseProjectConfiguration _firebaseProjectConfiguration
 <div id="firebaseConfig" style="display: none; visibility:hidden">@_firebaseProjectConfiguration.ToBase64Json()</div>
-<!-- see FirebaseAuth.razor.cs C# only component -->
+<div id="firebaseUiConfig" style="display: none; visibility:hidden">@_firebaseUiConfig.ToBase64Json()</div>
+<div id="firebaseui-auth-container" style="display: none; visibility: hidden"></div>

@@ -26,12 +26,17 @@ namespace Microsoft.Identity.Firebase.Models
         [JsonPropertyName("messagingSenderId")] public string messagingSenderId { get; private init; }
         [JsonPropertyName("appId")] public string appId { get; private init; }
         [JsonPropertyName("measurementId")] public string measurementId { get; private init; }
-
+        [JsonPropertyName("functionsRegion")] public string functionsRegion { get; private init; }
         [JsonPropertyName("OpenIdConfiguration")] public FirebaseOpenIdConfiguration OpenIdConfiguration { get; private init; }
 
-        public FirebaseProjectConfiguration(IConfiguration configuration, FirebaseOpenIdConfiguration? openIdConfiguration = null)
+        public const string ConfigSectionName = "Firebase";
+        
+        public FirebaseProjectConfiguration(IConfiguration configuration, FirebaseOpenIdConfiguration? openIdConfiguration = null) : this(configuration.GetSection(ConfigSectionName))
         {
-            var configurationSection = configuration.GetSection("Firebase");
+        }
+        
+        public FirebaseProjectConfiguration(IConfigurationSection configurationSection, FirebaseOpenIdConfiguration? openIdConfiguration = null)
+        {
             var apiKeyBytes = Convert.FromBase64String(configurationSection["ApiKey"]);
             this.apiKey = new string(apiKeyBytes.Select(b => (char)b).ToArray());
             this.authDomain = configurationSection["AuthDomain"];
@@ -40,6 +45,7 @@ namespace Microsoft.Identity.Firebase.Models
             this.messagingSenderId = configurationSection["MessagingSenderId"];
             this.appId = configurationSection["AppId"];
             this.measurementId = configurationSection["MeasurementId"];
+            this.functionsRegion = configurationSection["FunctionsRegion"];
             this.OpenIdConfiguration = openIdConfiguration ?? FirebaseOpenIdConfiguration.GetFirebaseOpenIdConfiguration(this);
         }
 
