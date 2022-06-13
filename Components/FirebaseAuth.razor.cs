@@ -112,7 +112,8 @@ namespace Microsoft.Identity.Firebase.Components
             if (newUser.ProviderData.Any())
             {
                 newUser!.FirstProvider!.DisplayName = displayName;
-            } else
+            }
+            else
             {
                 newUser.ProviderData.Append(new FirebaseProviderData
                 {

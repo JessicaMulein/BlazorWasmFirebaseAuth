@@ -30,11 +30,11 @@ namespace Microsoft.Identity.Firebase.Models
         [JsonPropertyName("OpenIdConfiguration")] public FirebaseOpenIdConfiguration OpenIdConfiguration { get; private init; }
 
         public const string ConfigSectionName = "Firebase";
-        
+
         public FirebaseProjectConfiguration(IConfiguration configuration, FirebaseOpenIdConfiguration? openIdConfiguration = null) : this(configuration.GetSection(ConfigSectionName))
         {
         }
-        
+
         public FirebaseProjectConfiguration(IConfigurationSection configurationSection, FirebaseOpenIdConfiguration? openIdConfiguration = null)
         {
             var apiKeyBytes = Convert.FromBase64String(configurationSection["ApiKey"]);
